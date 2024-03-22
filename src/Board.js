@@ -1,16 +1,16 @@
 import Square from "./Square";
 
 export default function Board({
-  gameState,
+  boardState,
   handleStateChange,
   isXturn,
   gameOver,
 }) {
-  const setValue = (index) => {
-    if (gameState[index] || gameOver) return;
-    const newGameState = [...gameState];
-
-    handleStateChange(newGameState, index);
+  const handleClick = (index) => {
+    if (boardState[index] || gameOver) return;
+    const newBoardState = [...boardState];
+    newBoardState[index] = isXturn ? "X" : "O";
+    handleStateChange(newBoardState, index);
   };
 
   return (
@@ -21,23 +21,23 @@ export default function Board({
       <div className="board-row">
         <Square
           key={0}
-          value={gameState[0]}
+          value={boardState[0]}
           onSquareClick={() => {
-            setValue(0);
+            handleClick(0);
           }}
         />
         <Square
           key={1}
-          value={gameState[1]}
+          value={boardState[1]}
           onSquareClick={() => {
-            setValue(1);
+            handleClick(1);
           }}
         />
         <Square
           key={2}
-          value={gameState[2]}
+          value={boardState[2]}
           onSquareClick={() => {
-            setValue(2);
+            handleClick(2);
           }}
         />
       </div>
@@ -46,23 +46,23 @@ export default function Board({
       <div className="board-row">
         <Square
           key={3}
-          value={gameState[3]}
+          value={boardState[3]}
           onSquareClick={() => {
-            setValue(3);
+            handleClick(3);
           }}
         />
         <Square
           key={4}
-          value={gameState[4]}
+          value={boardState[4]}
           onSquareClick={() => {
-            setValue(4);
+            handleClick(4);
           }}
         />
         <Square
           key={5}
-          value={gameState[5]}
+          value={boardState[5]}
           onSquareClick={() => {
-            setValue(5);
+            handleClick(5);
           }}
         />
       </div>
@@ -71,23 +71,23 @@ export default function Board({
       <div className="board-row">
         <Square
           key={6}
-          value={gameState[6]}
+          value={boardState[6]}
           onSquareClick={() => {
-            setValue(6);
+            handleClick(6);
           }}
         />
         <Square
           key={7}
-          value={gameState[7]}
+          value={boardState[7]}
           onSquareClick={() => {
-            setValue(7);
+            handleClick(7);
           }}
         />
         <Square
           key={8}
-          value={gameState[8]}
+          value={boardState[8]}
           onSquareClick={() => {
-            setValue(8);
+            handleClick(8);
           }}
         />
       </div>

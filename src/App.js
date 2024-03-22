@@ -5,45 +5,38 @@ import calculateWinner from "./calculateWinner";
 
 export const App = () => {
   const [histories, setHistories] = useState([new Array(9).fill(null)]);
-  const [gameState, setGameState] = useState(histories[0]);
   const [isXturn, setXturn] = useState(false);
-  const [selectedHistoryIndex, setSelectedHistoryIndex] = useState(-1);
+  const [selectedHistoryIndex, setSelectedHistoryIndex] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const handleStateChange = (newGameState, index) => {
-    newGameState[index] = isXturn ? "X" : "O";
+  const handleStateChange = (newBoardState, index) => {
     const isWinner = calculateWinner({
-      gameState: newGameState,
-      player: newGameState[index],
+      gameState: newBoardState,
+      player: newBoardState[index],
     });
     if (isWinner) setGameOver(true);
-    if (selectedHistoryIndex > -1) {
-      setHistories([
-        ...histories.slice(0, selectedHistoryIndex + 1),
-        newGameState,
-      ]);
-      setGameState(newGameState);
-      setSelectedHistoryIndex(-1);
-      return;
-    }
     setXturn(!isXturn);
-    setGameState(newGameState);
-    setHistories([...histories, newGameState]);
+    const newHistories = [
+      ...histories.slice(0, selectedHistoryIndex + 1),
+      newBoardState,
+    ];
+    setHistories(newHistories);
+    setSelectedHistoryIndex(newHistories.length - 1);
   };
   return (
     <div className="game">
       <Board
-        gameState={gameState}
+        boardState={histories[selectedHistoryIndex]}
         handleStateChange={handleStateChange}
         isXturn={isXturn}
         gameOver={gameOver}
+        x
       />
       <History
         histories={histories}
-        onSelectHistory={(selectedHistory, index) => {
-          setGameState([...selectedHistory]);
+        onSelectHistory={(index) => {
           setSelectedHistoryIndex(index);
           setXturn(index % 2 === 0 ? false : true);
-          if (gameState !== selectedHistory) setGameOver(false);
+          if (index !== selectedHistoryIndex) setGameOver(false);
         }}
       />
     </div>
